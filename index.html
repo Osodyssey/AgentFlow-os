@@ -1,93 +1,59 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa">
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>AgentFlow — odyssey</title>
-
-  <!-- Drawflow CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/drawflow@0.0.52/dist/drawflow.min.css">
-
-  <!-- Local styles -->
-  <link rel="stylesheet" href="styles.css">
-
-  <!-- Tailwind CDN (optional, used for quick utilities in markup) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-  <div id="app" style="display:flex;height:100vh;">
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <div class="brand">AgentFlow</div>
-        <div class="subtitle">Agent composition playground</div>
+  <head>
+    <meta charset="utf-8" />
+    <title>AgentFlow</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Drawflow CDN (در صورت آفلاین بودن، فایل drawflow را در libs قرار دهید) -->
+    <script src="https://unpkg.com/drawflow/dist/drawflow.min.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="title">AgentFlow — ویرایشگر جریان عامل‌ها</div>
+      <div class="toolbar">
+        <input id="agent-search-input" placeholder="جستجوی نود..." />
+        <button id="previewJson">پیش‌نمایش JSON</button>
+        <button id="runFlow">اجرای جریان</button>
+        <button id="saveLocal">ذخیره محلی</button>
+        <button id="exportJson">صدور JSON</button>
+        <button id="importJson">درون‌ریزی JSON</button>
+        <button id="openLog">لاگ</button>
       </div>
-      <div id="panel-content" class="panel-content"></div>
-      <div class="actions">
-        <button id="saveLocal" class="btn primary w-full">Save local</button>
-        <button id="exportJson" class="btn w-full">Export JSON</button>
-        <button id="importJson" class="btn w-full">Import JSON</button>
-        <button id="clearAll" class="btn w-full danger">Clear</button>
-      </div>
-    </aside>
+    </header>
 
-    <main class="main-area">
-      <div class="topbar">
-        <div class="zoom-controls">
-          <button id="zoomOut" class="btn">-</button>
-          <button id="zoomReset" class="btn">100%</button>
-          <button id="zoomIn" class="btn">+</button>
-        </div>
-        <div class="top-actions">
-          <button id="previewJson" class="btn">Preview JSON</button>
-          <button id="openLog" class="btn">Logs</button>
-          <button id="runFlow" class="btn primary">Run Flow</button>
-        </div>
-      </div>
+    <main class="container">
+      <aside class="panel" id="panel-content">
+        <div class="panel-header">پالت نودها <button id="close-panel-btn">بستن</button></div>
+        <div id="panel-list" class="panel-list"></div>
+      </aside>
 
-      <div id="drawflow" class="drawflow-canvas"></div>
+      <section class="canvas-wrap">
+        <div id="drawflow" class="drawflow"></div>
+      </section>
     </main>
 
-    <!-- Add Node panel -->
-    <div id="add-node-panel" class="add-node-panel">
-      <div class="panel-header">
-        <div class="panel-title">Add Agent</div>
-        <button id="close-panel-btn" class="btn">×</button>
-      </div>
-      <div class="panel-search">
-        <input id="agent-search-input" placeholder="Search agents..." />
-      </div>
-      <div id="panel-list" class="panel-list"></div>
-    </div>
-
     <!-- Inspector modal -->
-    <div id="inspector-modal-overlay" class="inspector-overlay">
-      <div id="inspector-modal" class="inspector-modal">
-        <div class="inspector-header">
-          <div class="inspector-title">Node Inspector</div>
-          <div id="inspector-id" class="inspector-id">ID: -</div>
-        </div>
-        <div id="inspector-content" class="inspector-content"></div>
+    <div id="inspector-modal-overlay" class="modal">
+      <div id="inspector" class="inspector">
+        <div id="inspector-id">ID:</div>
+        <div id="inspector-content"></div>
+        <button class="btn" onclick="App.handlers.closeInspector()">بستن</button>
       </div>
     </div>
 
     <!-- Log panel -->
-    <div id="log-panel" class="log-panel" aria-hidden="true">
+    <div id="log-panel" class="log-panel">
       <div class="log-header">
-        <div class="log-title">Runtime Log</div>
-        <div class="log-controls">
-          <button id="clearLogs" class="btn">Clear</button>
-          <button id="closeLogs" class="btn">Close</button>
+        <strong>لاگ‌ها</strong>
+        <div class="log-actions">
+          <button id="clearLogs">پاک کن</button>
+          <button id="closeLogs">بستن</button>
         </div>
       </div>
       <div id="log-content" class="log-content"></div>
     </div>
-  </div>
 
-  <!-- Drawflow -->
-  <script src="https://cdn.jsdelivr.net/npm/drawflow@0.0.52/dist/drawflow.min.js"></script>
-
-  <!-- App script -->
-  <script src="app.js"></script>
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>
